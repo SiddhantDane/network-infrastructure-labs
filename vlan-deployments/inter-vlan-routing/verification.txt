@@ -1,0 +1,54 @@
+==============================
+VERIFICATION – ROUTER-ON-A-STICK
+==============================
+
+--- SW1 TRUNK STATUS ---
+
+SW1# show interfaces trunk
+
+Port        Mode         Encapsulation  Status       Native vlan
+Fa0/5       on           802.1q         trunking     1
+Fa0/24      on           802.1q         trunking     1
+
+Vlans allowed and active in management domain
+1,10,20,30
+
+------------------------------------------------------
+
+--- R1 INTERFACE STATUS ---
+
+R1# show ip interface brief
+
+Interface        IP-Address       OK? Method Status                Protocol
+Gig0/0           unassigned       YES unset  up                    up
+Gig0/0.10        192.168.10.1     YES manual up                    up
+Gig0/0.20        192.168.20.1     YES manual up                    up
+Gig0/0.30        192.168.30.1     YES manual up                    up
+
+------------------------------------------------------
+
+--- R1 ROUTING TABLE ---
+
+R1# show ip route
+
+C 192.168.10.0/24 is directly connected, Gig0/0.10
+C 192.168.20.0/24 is directly connected, Gig0/0.20
+C 192.168.30.0/24 is directly connected, Gig0/0.30
+
+------------------------------------------------------
+
+--- CONNECTIVITY TEST RESULTS ---
+
+HR1 (192.168.10.10) → IT1 (192.168.20.10)
+Result: SUCCESS
+
+HR1 (192.168.10.10) → FIN1 (192.168.30.10)
+Result: SUCCESS
+
+IT1 (192.168.20.10) → FIN2 (192.168.30.11)
+Result: SUCCESS
+
+------------------------------------------------------
+
+FINAL STATUS:
+Inter-VLAN routing successfully enabled using router subinterfaces and 802.1Q trunking.
